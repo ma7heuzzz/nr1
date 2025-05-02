@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Nr1 - Jogo de Estratégia Online Multiplayer</title>
+    <meta name="description" content="Jogue Nr1, um desafiador jogo de estratégia online multiplayer. Conecte-se com amigos, crie salas e domine o tabuleiro neste viciante jogo de números.">
+    <meta name="keywords" content="Nr1, jogo, estratégia, multiplayer, online, tabuleiro, números, jogo online, jogo multiplayer, jogo de tabuleiro, jogo de números, nr1 game">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nr1.lat/">
+    <meta property="og:title" content="Nr1 - Jogo de Estratégia Online Multiplayer">
+    <meta property="og:description" content="Jogue Nr1, um desafiador jogo de estratégia online multiplayer. Conecte-se com amigos, crie salas e domine o tabuleiro neste viciante jogo de números.">
+    <meta property="og:image" content="https://nr1.lat/assets/icon-512.png">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://nr1.lat/">
+    <meta property="twitter:title" content="Nr1 - Jogo de Estratégia Online Multiplayer">
+    <meta property="twitter:description" content="Jogue Nr1, um desafiador jogo de estratégia online multiplayer. Conecte-se com amigos, crie salas e domine o tabuleiro neste viciante jogo de números.">
+    <meta property="twitter:image" content="https://nr1.lat/assets/icon-512.png">
+    <!-- Schema.org markup for Google+ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "Nr1",
+      "url": "https://nr1.lat/",
+      "image": "https://nr1.lat/assets/icon-512.png",
+      "description": "Jogue Nr1, um desafiador jogo de estratégia online multiplayer. Conecte-se com amigos, crie salas e domine o tabuleiro neste viciante jogo de números.",
+      "applicationCategory": "Game",
+      "operatingSystem": "Web",
+      "playMode": "MultiPlayer",
+      "gamePlatform": "Browser",
+      "author": {
+        "@type": "Organization",
+        "name": "Nr1 Team" // Placeholder - update if you have a specific team/developer name
+      }
+    }
+    </script>
+    <link rel="stylesheet" href="/css/style.css?t=22">
+    <!-- Link para fonte pixelada (exemplo: Press Start 2P do Google Fonts) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#ffcc00">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Settings Button -->
+        <button id="settings-button" class="icon-button" style="display: none;">⚙️</button>
+
+        <!-- Tela de Carregamento -->
+        <div id="loading-screen" class="screen active">
+            <h1>Carregando...</h1>
+        </div>
+
+        <!-- Tela de Nickname -->
+        <div id="nickname-screen" class="screen">
+            <!-- Conteúdo será gerado por JS -->
+        </div>
+
+        <!-- Tela do Menu Principal -->
+        <div id="main-menu-screen" class="screen">
+            <!-- Conteúdo será gerado por JS -->
+        </div>
+
+        <!-- Tela do Lobby (Ver Mesas) -->
+        <div id="lobby-screen" class="screen">
+            <!-- Conteúdo será gerado por JS -->
+        </div>
+
+        <!-- Tela da Sala de Jogo -->
+        <div id="game-room-screen" class="screen">
+            <!-- Conteúdo do jogo será gerado por JS -->
+            <div id="game-area">
+                <!-- Tabuleiro e informações do jogo aqui -->
+            </div>
+            <div id="chat-container">
+                <div id="chat-messages"></div>
+                <form id="chat-form">
+                    <input type="text" id="chat-input" placeholder="Digite sua mensagem..." maxlength="100" autocomplete="off">
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal Genérico (para criar mesa, mostrar erros, etc.) -->
+        <div id="modal-container" class="modal-overlay">
+            <div class="modal-content">
+                <span class="modal-close-button">&times;</span>
+                <div id="modal-body">
+                    <!-- Conteúdo do modal será inserido aqui -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal-container" class="modal-overlay">
+            <div class="modal-content settings-modal">
+                <span class="modal-close-button settings-close-button">&times;</span>
+                <h2>Configurações</h2>
+                <div class="settings-options">
+                    <div class="setting-item">
+                        <label for="sound-toggle">Som:</label>
+                        <button id="sound-toggle" class="toggle-button">🔊</button> <!-- Initial state: Sound On -->
+                    </div>
+                    <div class="setting-item">
+                        <label for="fullscreen-toggle">Tela Cheia:</label>
+                        <button id="fullscreen-toggle" class="toggle-button">⛶</button> <!-- Icon for Enter Fullscreen -->
+                    </div>
+                    <!-- Add more settings here if needed -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/lib/simplepeer.min.js"></script> <!-- Added SimplePeer library -->
+    <script type="module" src="/js/client.js"></script>
+</body>
+</html>

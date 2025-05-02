@@ -1,0 +1,707 @@
+// Basic reset and global styles
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Press Start 2P', cursive; // Apply pixel font
+    background-color: #1a1a1a; // Darker background
+    color: #e0e0e0; // Light grey text
+    height: 100%;
+    // Use 100vh for mobile viewport height consistency
+    min-height: 100vh;
+    overflow: hidden; // Prevent scrolling on body
+    image-rendering: pixelated; // Ensure pixel art looks crisp
+    -webkit-font-smoothing: none; // Crisper fonts
+    font-smooth: never;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+#game-container {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh; // Ensure it fills viewport height
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    padding-top: 50px; // Added padding-top to push content down slightly
+    position: relative; // Needed for absolute positioning of screens/modals
+    overflow: hidden; // Prevent container overflow
+}
+
+#new-table-size{
+    padding: 10px;
+    background-color: #6a6a6a;
+    font-size: 1.25rem;
+    width: 100%;
+}
+
+// Screen Management
+.screen {
+    display: none; // Hide screens by default
+    width: 100%;
+    height: calc(100% - 50px); // Adjust height considering the container padding-top
+    position: absolute;
+    pointer-events: none;
+    top: 50px; // Align with container padding-top
+    left: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 15px; // Slightly reduce padding for smaller screens
+    overflow-y: auto; // Allow scrolling within screen if content overflows
+}
+
+.screen.active {
+    display: flex; // Show the active screen
+    pointer-events: auto;
+}
+
+// Basic Button Styling (Pixelated)
+button, input[type="submit"], input[type="button"] {
+    font-family: 'Press Start 2P', cursive;
+    padding: 12px 20px; // Adjusted padding
+    font-size: 0.9em; // Adjusted font size
+    cursor: pointer;
+    color: #ffffff;
+    background-color: #5a5a5a; // Greyish button
+    border: 2px solid #000000;
+    box-shadow: inset -2px -2px 0px 0px #3a3a3a, 2px 2px 0px 0px #000000; // Pixelated effect
+    text-transform: uppercase;
+    margin: 8px; // Adjusted margin
+    transition: background-color 0.1s ease;
+    -webkit-tap-highlight-color: transparent; // Remove tap highlight on mobile
+
+    &:hover {
+        background-color: #6a6a6a;
+    }
+
+    &:active {
+        box-shadow: inset 2px 2px 0px 0px #3a3a3a; // Pressed effect
+        transform: translate(2px, 2px);
+    }
+
+    &:disabled {
+        background-color: #444;
+        color: #888;
+        cursor: not-allowed;
+        box-shadow: inset -2px -2px 0px 0px #2a2a2a, 2px 2px 0px 0px #000000;
+    }
+}
+
+// Basic Input Styling (Pixelated)
+input[type="text"], input[type="password"], input[type="email"] {
+    font-family: 'Press Start 2P', cursive;
+    padding: 12px; // Adjusted padding
+    font-size: 0.9em; // Adjusted font size
+    margin-bottom: 15px; // Adjusted margin
+    width: 90%; // Increased width for mobile
+    max-width: 320px;
+    text-align: center;
+    border: 2px solid #000000;
+    background-color: #f0f0f0;
+    color: #222;
+    box-shadow: inset 2px 2px 0px 0px #aaaaaa, 2px 2px 0px 0px #000000;
+
+    &:focus {
+        outline: none;
+        background-color: #ffffff;
+    }
+}
+
+// Headings
+h1 {
+    font-size: 1.5em; // Adjusted font size
+    color: #ffffff;
+    text-shadow: 2px 2px #000000;
+    margin-bottom: 25px; // Adjusted margin
+    line-height: 1.2;
+}
+h2 {
+    font-size: 1.2em; // Adjusted font size
+    color: #f0f0f0;
+    text-shadow: 1px 1px #000000;
+    margin-bottom: 15px; // Adjusted margin
+    line-height: 1.2;
+}
+
+// Modal Styling
+.modal-overlay {
+    display: none; // Hidden by default
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 10px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background-color: #333333;
+    padding: 20px; // Adjusted padding
+    border: 3px solid #000000;
+    box-shadow: 4px 4px 0px 0px #000000;
+    min-width: 280px;
+    max-width: 95%;
+    position: relative;
+    text-align: center;
+}
+
+.modal-close-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 1.5em;
+    color: #ffffff;
+    cursor: pointer;
+    text-shadow: 1px 1px #000000;
+
+    &:hover {
+        color: #ffcc00;
+    }
+}
+
+#modal-body {
+    margin-top: 15px; // Adjusted margin
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+// Specific Screen Styles
+
+#loading-screen h1 {
+    color: #ffcc00; // Yellow loading text
+}
+
+#nickname-screen {
+    input {
+        margin-bottom: 10px;
+    }
+    button {
+        margin-top: 10px;
+    }
+}
+
+#main-menu-screen {
+    .main-menu-options {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        button {
+            width: 80%;
+            max-width: 300px;
+        }
+    }
+}
+
+#lobby-screen {
+    justify-content: flex-start; // Align content to top
+    h1 {
+        margin-bottom: 15px;
+    }
+    .lobby-controls {
+        display: flex;
+        width: 100%;
+        max-width: 400px;
+        margin-bottom: 15px;
+        input[type="text"] {
+            flex-grow: 1;
+            margin: 0 5px 0 0;
+            max-width: none;
+            width: auto;
+        }
+        button {
+            margin: 0 0 0 5px;
+            padding: 12px 15px; // Smaller padding for refresh
+        }
+    }
+    #table-list-container {
+        width: 100%;
+        max-width: 450px;
+        max-height: 55vh; // Reduced height slightly
+        overflow-y: auto;
+        border: 2px solid #000;
+        background-color: #2a2a2a;
+        padding: 10px;
+        margin-bottom: 15px;
+        box-shadow: inset 2px 2px 0px 0px #1a1a1a;
+    }
+    .table-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 10px;
+        margin-bottom: 8px;
+        background-color: #444;
+        border: 1px solid #000;
+        box-shadow: 1px 1px 0px 0px #000;
+        font-size: 0.8em;
+        span {
+            margin-right: 10px;
+        }
+        button {
+            padding: 5px 10px;
+            font-size: 0.7em;
+            margin: 0;
+        }
+    }
+    #back-to-menu-button {
+        margin-top: auto; // Push back button towards bottom
+    }
+}
+
+#game-room-screen {
+    justify-content: flex-start; // Changed from space-between to flex-start
+    padding: 10px;
+    margin-top: 0; // Removed margin-top as container has padding
+    .game-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        max-width: 500px;
+        margin-bottom: 10px;
+        font-size: 0.7em;
+        flex-wrap: wrap; // Allow wrapping on very small screens
+        flex-shrink: 0; // Prevent info from shrinking
+    }
+    .player-score {
+        flex-basis: 35%; // Allocate space
+        text-align: center;
+        padding: 5px;
+        background-color: #2a2a2a;
+        border: 1px solid #000;
+        &.player-self { text-align: left; }
+        &.player-opponent { text-align: right; }
+        span {
+            display: block;
+        }
+    }
+    .turn-indicator {
+        flex-basis: 30%; // Allocate space
+        text-align: center;
+        font-weight: bold;
+        color: #ffcc00;
+    }
+
+    #game-board-container {
+        width: 100%;
+        // Aspect ratio 1:1, max width/height based on viewport
+        aspect-ratio: 1 / 1;
+        max-width: 90vw; // Max width relative to viewport width
+        max-height: 55vh; // Reduced max height slightly
+        margin: 10px auto; // Center the board container with some margin
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0; // Prevent board from shrinking excessively
+    }
+
+    .game-board {
+        display: grid;
+        width: 100%;
+        height: 100%;
+        border: 2px solid #000;
+        background-color: #333;
+        gap: 1px; // Small gap between cells
+    }
+
+    .cell {
+        background-color: #555;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: clamp(10px, 3vw, 18px); // Responsive font size
+        font-weight: bold;
+        color: #fff;
+        cursor: pointer;
+        border: 1px solid #222;
+        transition: background-color 0.2s;
+
+        &.claimed {
+            cursor: default;
+        }
+        &.owned-self {
+            background-color: #4CAF50; // Green for self
+            color: #fff;
+        }
+        &.owned-opponent {
+            background-color: #F44336; // Red for opponent
+            color: #fff;
+        }
+        &.valid-move {
+            background-color: #777;
+            outline: 2px solid #ffcc00; // Yellow outline for valid moves
+            outline-offset: -2px;
+            &:hover {
+                 background-color: #888;
+            }
+        }
+    }
+
+    .game-controls {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+        flex-shrink: 0; // Prevent controls from shrinking
+    }
+}
+
+// Error message styling
+.error-message {
+    color: #F44336; // Red
+    font-size: 0.8em;
+    margin-top: 10px;
+    display: none; // Hidden by default
+}
+
+// Responsive adjustments (Refined)
+@media (min-width: 601px) {
+    // Styles for larger screens (tablets/desktops)
+    h1 { font-size: 1.8em; }
+    h2 { font-size: 1.4em; }
+    button, input[type="button"], input[type="submit"] {
+        padding: 15px 25px;
+        font-size: 1em;
+    }
+    input[type="text"] {
+        padding: 15px;
+        font-size: 1em;
+    }
+    .modal-content { padding: 30px; }
+    #modal-body { font-size: 1em; }
+
+    #game-room-screen {
+        .game-info { font-size: 0.9em; }
+        .cell { font-size: clamp(14px, 2.5vw, 24px); }
+        #game-board-container { max-height: 65vh; } // Restore max-height for larger screens
+    }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+    // Specific adjustments for landscape on short mobile screens
+    #game-container { padding-top: 10px; } // Reduce padding in landscape
+    .screen { top: 10px; height: calc(100% - 10px); } // Adjust screen position/height
+    #settings-button { top: 5px; right: 5px; padding: 6px 8px; font-size: 1em; } // Smaller button in landscape
+
+    #game-room-screen {
+        flex-direction: row; // Side-by-side layout
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+
+        .game-info {
+            flex-direction: column;
+            width: auto;
+            max-width: 150px;
+            height: 100%;
+            justify-content: space-around;
+            margin-bottom: 0;
+            font-size: 0.7em;
+            .player-score, .turn-indicator {
+                flex-basis: auto;
+                width: 100%;
+                text-align: center;
+                &.player-self, &.player-opponent { text-align: center; }
+            }
+        }
+        #game-board-container {
+            max-width: 70vh; // Max width relative to viewport height in landscape
+            max-height: 85vh;
+            margin: 0;
+        }
+        .game-controls {
+            width: auto;
+            margin-top: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            button {
+                margin: 10px 0;
+            }
+        }
+    }
+}
+
+
+
+
+// Chat Styling
+#chat-container {
+    width: 100%;
+    max-width: 500px; // Match game info width
+    margin-top: 15px;
+    border: 2px solid #000;
+    background-color: #2a2a2a;
+    display: flex;
+    flex-direction: column;
+    height: 25vh; // Allocate a portion of viewport height
+    max-height: 150px; // Max height
+    box-shadow: inset 2px 2px 0px 0px #1a1a1a;
+    flex-shrink: 0; // Prevent chat from shrinking
+}
+
+#chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 8px;
+    font-size: 0.7em;
+    line-height: 1.4;
+    scrollbar-width: thin; // For Firefox
+    scrollbar-color: #555 #2a2a2a; // For Firefox
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    &::-webkit-scrollbar-track {
+        background: #2a2a2a;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #555;
+        border: 1px solid #2a2a2a;
+    }
+
+    .chat-message {
+        margin-bottom: 5px;
+        word-wrap: break-word;
+        .nickname {
+            font-weight: bold;
+            color: #ffcc00; // Yellow nickname
+        }
+        .timestamp {
+            font-size: 0.8em;
+            color: #888;
+            margin-left: 5px;
+        }
+        .text {
+            margin-left: 5px;
+        }
+    }
+    .system-message {
+         color: #aaa;
+         font-style: italic;
+    }
+}
+
+#chat-form {
+    display: flex;
+    border-top: 2px solid #000;
+    padding: 5px;
+
+    #chat-input {
+        flex-grow: 1;
+        margin: 0;
+        padding: 8px;
+        font-size: 0.8em;
+        max-width: none; // Override default max-width
+        box-shadow: inset 1px 1px 0px 0px #aaaaaa, 1px 1px 0px 0px #000000;
+    }
+
+    button[type="submit"] {
+        margin: 0 0 0 5px;
+        padding: 8px 12px;
+        font-size: 0.8em;
+    }
+}
+
+// Responsive adjustments for chat
+@media (min-width: 601px) {
+    #chat-container {
+        max-height: 200px; // Allow more height on larger screens
+    }
+    #chat-messages { font-size: 0.8em; }
+    #chat-form {
+        #chat-input { font-size: 0.9em; }
+        button[type="submit"] { font-size: 0.9em; }
+    }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+    #game-room-screen {
+        #chat-container {
+            width: 200px; // Fixed width in landscape
+            height: 100%; // Fill height next to board
+            max-height: none;
+            margin-top: 0;
+            margin-left: 15px; // Add gap
+        }
+    }
+}
+
+
+
+
+// Settings Button Styling
+#settings-button {
+    position: fixed; // Changed from absolute to fixed
+    pointer-events: auto;
+    top: 10px; // Adjusted position
+    right: 10px; // Adjusted position
+    z-index: 1100; // Increased z-index to be above modals (1000)
+    padding: 8px 10px; // Smaller padding for icon button
+    font-size: 1.2em; // Larger icon
+    line-height: 1;
+    min-width: auto; // Allow button to be smaller
+    background-color: rgba(90, 90, 90, 0.8); // Slightly transparent background
+
+    &:hover {
+        background-color: rgba(106, 106, 106, 0.9);
+    }
+
+    &:active {
+        transform: translate(1px, 1px); // Smaller press effect
+        box-shadow: inset 1px 1px 0px 0px #3a3a3a;
+    }
+}
+
+// Settings Modal Specifics
+.settings-modal {
+    h2 {
+        margin-top: 0;
+        margin-bottom: 25px;
+    }
+    .settings-options {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .setting-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        label {
+            margin-right: 15px;
+        }
+        .toggle-button {
+            padding: 8px 12px;
+            font-size: 1.1em;
+            min-width: 60px; // Ensure minimum width for icons
+            text-align: center;
+        }
+    }
+}
+
+
+
+
+// Select Styling (Pixelated)
+select {
+    font-family: 'Press Start 2P', cursive;
+    padding: 10px; // Slightly less padding than input
+    font-size: 0.9em;
+    margin-bottom: 15px;
+    width: 90%;
+    max-width: 320px;
+    border: 2px solid #000000;
+    background-color: #f0f0f0;
+    color: #222;
+    box-shadow: inset 2px 2px 0px 0px #aaaaaa, 2px 2px 0px 0px #000000;
+    appearance: none; // Remove default browser styling
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27292.4%27%20height%3D%27292.4%27%3E%3Cpath%20fill%3D%27%23000000%27%20d%3D%27M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%27%2F%3E%3C%2Fsvg%3E"); // Simple black down arrow
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 12px auto;
+    cursor: pointer;
+
+    &:focus {
+        outline: none;
+        background-color: #ffffff;
+    }
+
+    option {
+        font-family: 'Press Start 2P', cursive;
+        background-color: #f0f0f0;
+        color: #222;
+    }
+}
+
+
+
+// Board Size Specific Styling
+.game-board {
+    &.board-3x3 .cell { font-size: clamp(18px, 5vw, 36px); }
+    &.board-4x4 .cell { font-size: clamp(16px, 4vw, 30px); }
+    &.board-5x5 .cell { font-size: clamp(14px, 3.5vw, 26px); }
+    &.board-6x6 .cell { font-size: clamp(12px, 3.2vw, 22px); }
+    &.board-8x8 .cell { font-size: clamp(10px, 3vw, 18px); }
+}
+
+
+// Styles for different game types in the lobby
+.table-item {
+    // Base style (already defined)
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+
+    &[data-game-type="checkers"] {
+        background-color: #6d4c41; // Brownish for Checkers
+        border-left: 5px solid #d7ccc8; // Light checker color
+        &:hover {
+            background-color: #8d6e63;
+        }
+    }
+
+    &[data-game-type="battleship"] {
+        background-color: #455a64; // Bluish-grey for Battleship
+        border-left: 5px solid #90a4ae; // Lighter blue-grey
+        &:hover {
+            background-color: #607d8b;
+        }
+    }
+
+    &[data-game-type="backgammon"] {
+        background-color: #5d4037; // Darker brown for Backgammon
+        border-left: 5px solid #fff9c4; // Creamy white point color
+        &:hover {
+            background-color: #795548;
+        }
+    }
+
+    &[data-game-type="ludo"] {
+        background-color: #00695c; // Teal/Green for Ludo
+        border-left: 5px solid #ffeb3b; // Yellow Ludo color
+        &:hover {
+            background-color: #00897b;
+        }
+    }
+
+    // Style for tables that are full or in progress
+    span:last-child:not(button) { // Target the status span when it's not a button
+        font-style: italic;
+        color: #bdbdbd;
+    }
+}
+
+
+
+// Styles for the Create Table Modal Select
+#modal-content select#new-game-type {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #555;
+    background-color: #333;
+    color: #eee;
+    font-size: 1em;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+#modal-content select#new-game-type:focus {
+    outline: none;
+    border-color: #777;
+}
+
